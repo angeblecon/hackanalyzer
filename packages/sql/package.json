@@ -1,0 +1,11 @@
+{
+  "name": "sql",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "node"
+  },
+  "dependencies": {
+    "pg-promise": "^11.2.0"
+  }
+}

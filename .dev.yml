@@ -1,0 +1,10 @@
+services:
+  hackharvard:
+    build:
+      target: dev
+    volumes:
+      - ./apps/hackharvard/hackharvard:/app/apps/hackharvard/hackharvard
+      - /node_modules
+      - ./packages/sql:/packages/sql
+      - ./packages/sql:/app/packages/sql
+      - ./packages/styled-jsx:/packages/styled-jsx

@@ -1,0 +1,13 @@
+# dependencies
+*node_modules
+
+# misc
+.DS_Store
+*.pem
+*dist
+
+# local env files
+.env
+
+# turbo
+.turbo

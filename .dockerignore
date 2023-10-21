@@ -1,0 +1,11 @@
+**/node_modules
+**/.DS_Store
+.github
+*.yml
+**/.gitignore
+**/.aws
+README.md
+start.sh
+env.sh
+backup.sh
+!ngrok.yml

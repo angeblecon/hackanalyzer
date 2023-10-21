@@ -1,0 +1,52 @@
+version: '3.4'
+services:
+  pg-admin:
+    image: dpage/pgadmin4
+    container_name: pg-admin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PG_ADMIN_USERNAME}
+      PGADMIN_DEFAULT_PASSWORD: ${PG_ADMIN_PASSWORD}
+    ports:
+      - 5050:80
+  pg-hackharvard:
+    image: bitnami/postgresql:15.1.0
+    ports:
+      - ${PG_HACKHARVARD_PORT}:${PG_HACKHARVARD_PORT}
+    volumes:
+      - pg_hackharvard_vol:/bitnami/postgresql
+      - ./apps/pg-hackharvard/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./apps/pg-hackharvard/docker-entrypoint-preinitdb.d:/docker-entrypoint-preinitdb.d
+    environment:
+      POSTGRESQL_USERNAME: ${PG_HACKHARVARD_USERNAME}
+      POSTGRESQL_PASSWORD: ${PG_HACKHARVARD_PASSWORD}
+      POSTGRESQL_DATABASE: ${PG_HACKHARVARD_DATABASE_NAME}
+    user: root
+    restart: unless-stopped
+    container_name: pg-hackharvard
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+  hackharvard:
+    ports:
+      - 9999:3000
+    build:
+      context: .
+      dockerfile: ./apps/hackharvard/hackharvard/Dockerfile
+    container_name: hackharvard
+    restart: always
+    env_file:
+      - .env
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    depends_on:
+      pg-hackharvard:
+        condition: service_started
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+volumes:
+  pg_hackharvard_vol:
+    driver: local

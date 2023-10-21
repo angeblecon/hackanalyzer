@@ -1,0 +1,5 @@
+services:
+  hackharvard:
+    platform: linux/amd64
+    build:
+      target: prod

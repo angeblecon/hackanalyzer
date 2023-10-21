@@ -1,0 +1,1 @@
+export { default as getPgHackharvard } from './pg-hackharvard.service';

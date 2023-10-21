@@ -1,0 +1,16 @@
+{
+  "name": "web-app",
+  "private": true,
+  "workspaces": [
+    "apps/hackharvard/hackharvard",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev"
+  },
+  "devDependencies": {
+    "turbo": "^1.10.13"
+  },
+  "packageManager": "npm@9.4.0"
+}

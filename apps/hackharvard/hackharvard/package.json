@@ -1,0 +1,24 @@
+{
+  "name": "hackharvard",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "langchain": "^0.0.156",
+    "next": "latest",
+    "object-assign": "^4.1.1",
+    "openai": "^4.10.0",
+    "pg-promise": "^11.5.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sql": "*",
+    "styled-jsx": "^5.1.1",
+    "uuid": "^9.0.1"
+  }
+}
