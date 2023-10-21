@@ -9,7 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@smithy/signature-v4": "^2.0.12",
     "bluebird": "^3.7.2",
+    "cheerio": "^1.0.0-rc.12",
+    "html-to-text": "^9.0.5",
     "langchain": "^0.0.156",
     "next": "latest",
     "object-assign": "^4.1.1",
