@@ -11,5 +11,13 @@ export async function GET(request) {
   // extract keywords
   const keywords = await extractKeywords(response.description);
 
-  return NextResponse.json({ status: 200, content: response });
+  console.log({ keywords })
+
+  return NextResponse.json({
+    status: 200,
+    content: {
+      response,
+      keywords
+    }
+  });
 };
