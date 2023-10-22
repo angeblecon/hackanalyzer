@@ -1,12 +1,13 @@
-import css from './MainComponent.scss';
+import css from "./MainComponent.scss";
+import LandingPage from "../LandingPage/LandingPage";
 
 export default function MainComponent() {
-  
-  return (
-    <div>
-      <span>Hello World</span>
-      <div id='gradient' />
-      <style jsx>{css}</style>
-    </div>
-  );
-};
+	return (
+		<div>
+			<span></span>
+			<div id="gradient" />
+			<LandingPage />
+			<style jsx>{css}</style>
+		</div>
+	);
+}
