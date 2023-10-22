@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import scss from './SimilarProjects.scss';
+import Card from './Card';
 
-export default function SimilarProjects({ similarProjects }) {
+export default function SimilarProjects({ similarProjects, setSelectedProject }) {
   const [sorting, setSorting] = useState('overallScore');
 
   return (
@@ -34,14 +35,7 @@ export default function SimilarProjects({ similarProjects }) {
       }
       <div id='similar-projects'>
         {similarProjects.sort((a, b) => (b.similarityAnalysis && a.similarityAnalysis) ? (sorting === 'title' ? a.project.title.localeCompare(b.project.title) : (b.similarityAnalysis[sorting].similarityScore - a.similarityAnalysis[sorting].similarityScore)) : b.project.id - a.project.id).map(({ project, similarityAnalysis }) => (
-          <div className='similar-project' key={'similar' + project.id}>
-            <span>{project.title}</span>
-            {similarityAnalysis && ['objectiveApproach', 'targetUser', 'thematicFocus', 'overallScore'].map(e => (
-              <span key={project.id + e}>
-                {similarityAnalysis[e].similarityScore}<span className='over-ten'>/10</span>
-              </span>
-            ))}
-          </div>
+          <Card project={project} similarityAnalysis={similarityAnalysis} key={'similar' + project.id} setSelectedProject={setSelectedProject} />
         ))}
       </div>
       <style jsx>{scss}</style>
