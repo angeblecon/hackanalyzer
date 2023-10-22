@@ -34,8 +34,10 @@ export async function GET(request) {
 
     // get github insigths
     const [owner, repo] = projectInfo.githubLink.split('https://github.com/')[1].split('/');
-    response.githubInsights = await getGithubInsights(owner, repo.replace('.git', ''));
-    yield JSON.stringify(response);
+    for await (const githubInsights of iteratorToStream(getGithubInsights(owner, repo.replace('.git', '')))) {
+      response.githubInsights = JSON.parse(githubInsights);
+      yield JSON.stringify(response);
+    }
 
     // extract keywords
     console.log('Extracting keywords...');

@@ -34,6 +34,8 @@ const getDevPostProject = async projectID => {
 
   const tagline = trimWhitespaceAndNewlines($('#software-header > div:nth-child(1) > div > p').html());
 
+  const images = $('.software_photo_image').map((i, e) => $(e).attr('src')).get();
+
   const descriptionHTML = $('#gallery').next().html();
 
   const description = convert(descriptionHTML);
@@ -72,6 +74,7 @@ const getDevPostProject = async projectID => {
   return {
     title,
     tagline,
+    images,
     description,
     tags,
     githubLink,

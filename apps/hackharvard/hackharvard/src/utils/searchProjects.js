@@ -31,6 +31,7 @@ const searchProjects = async query => {
     } else {
       projects.push(...content.software.map(s => ({
         id: s.slug,
+        photo: s.photo,
         title: s.name,
         tagline: s.tagline,
         members: s.members,

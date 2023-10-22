@@ -1,10 +1,12 @@
 const { Octokit } = require('@octokit/core');
 
 const octokit = new Octokit({
-  auth: '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'
+  auth: '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'
 });
 
-const getGithubInsights = async (owner, repo) => {
+async function* getGithubInsights(owner, repo) {
+
+  const response = {};
 
   console.log('Getting github insigths...', { owner, repo });
   const { data: languages } = await octokit.request(`GET /repos/${owner}/${repo}/languages`, {
@@ -14,6 +16,10 @@ const getGithubInsights = async (owner, repo) => {
       'X-GitHub-Api-Version': '2022-11-28'
     }
   });
+
+  response.languages = languages;
+
+  yield JSON.stringify(response);
 
   const commits = [];
 
@@ -60,6 +66,10 @@ const getGithubInsights = async (owner, repo) => {
       collaboration[login] += total;
     }
   }
+
+  response.collaboration = collaboration;
+
+  yield JSON.stringify(response);
 
   return { languages, collaboration };
 
