@@ -1,4 +1,4 @@
-INSERT INTO project (title, tagline, "description", tags, members, github_link, other_links)
-VALUES (${title}, ${tagline}, ${description}, ${tags}, ${members}, ${github_link}, ${other_links})
+INSERT INTO project (id, title, tagline, images, "description", tags, members, github_link, links)
+VALUES (${id},${title}, ${tagline}, ${images}, ${description}, ${tags}, ${members}, ${github_link}, ${links})
 RETURNING id;
 

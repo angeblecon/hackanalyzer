@@ -1,4 +1,4 @@
-INSERT INTO project (title, tagline, description, tags, members, github_link, other_links)
-VALUES ($1, $2, $3, $4, $5, $6, $7)
+INSERT INTO similarity_result (id, project_a, project_b, similarity_result)
+VALUES (${id}, ${project_a}, ${project_b}, ${similarity_result})
 RETURNING id;
 

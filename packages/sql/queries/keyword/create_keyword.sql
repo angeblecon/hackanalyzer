@@ -1,3 +1,3 @@
-INSERT INTO keyword (keywords)
-VALUES (${keywords})
+INSERT INTO keyword (id, keywords)
+VALUES (${id}, ${keywords})
 RETURNING id;
