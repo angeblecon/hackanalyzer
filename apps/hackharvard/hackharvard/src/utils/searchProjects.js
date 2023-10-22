@@ -1,6 +1,6 @@
 const searchProjects = async query => {
 
-  const MAX_PROJECTS = 50;
+  const MAX_PROJECTS = 10;
   const projects = [];
   let running = true;
 
@@ -32,7 +32,7 @@ const searchProjects = async query => {
       projects.push(...content.software.map(s => ({
         id: s.slug,
         photo: s.photo,
-        title: s.name,
+        title: s.name.replace('&amp;', '&'),
         tagline: s.tagline,
         members: s.members,
         tags: s.tags

@@ -22,7 +22,6 @@ function iteratorToStream(iterator) {
 }
 
 export async function GET(request) {
-  const response = {};
   const id = request.url.split('/api/project/')[1];
   
   async function* handler(id) {
@@ -30,15 +29,14 @@ export async function GET(request) {
     // get project details
     console.log('Getting project info...', id);
     const projectInfo = await getDevPostProject(id);
+    yield JSON.stringify({ project: { ...projectInfo }});
     const structuredDescription = await generateDescription(projectInfo.description);
-    response.project = { ...projectInfo, structuredDescription };
-    yield JSON.stringify(response);
+    yield JSON.stringify({ project: { ...projectInfo, structuredDescription }});
 
     // get github insigths
     const [owner, repo] = projectInfo.githubLink.split('https://github.com/')[1].split('/');
     for await (const githubInsights of iteratorToStream(getGithubInsights(owner, repo.replace('.git', '')))) {
-      response.githubInsights = JSON.parse(githubInsights);
-      yield JSON.stringify(response);
+      yield JSON.stringify({ githubInsights: JSON.parse(githubInsights) });
     }
 
     // extract keywords
@@ -48,33 +46,32 @@ export async function GET(request) {
 
     // search for similar projects
     console.log('Searching for similar projects...');
-    const similarProjects = await searchProjects(keywords.join(' '));
-    response.similarProjects = similarProjects.map(project => ({ project }));
-    console.log(similarProjects);
-    yield JSON.stringify(response);
+    const similarProjects = await searchProjects(keywords.join(' '))
+      .then(r => r.filter(p => p.id !== projectInfo.id).map(project => ({ project })));
+    yield JSON.stringify({ similarProjects });
 
     // enrich each project information
     const promises = [];
     for (let similarProject of similarProjects) {
-      promises.push(new Promise(async resolve => {
-        console.log('Getting more details on the project', similarProject.id);
-        const detailedProject = await getDevPostProject(similarProject.id);
+      promises.push(new Promise(async (resolve, reject) => {
+        console.log('Getting more details on the project', similarProject.project.id);
+        const detailedProject = await getDevPostProject(similarProject.project.id);
+        console.log({ detailedProject });
         if (detailedProject) {
+          const { id, title, tagline, images } = detailedProject;
           const similarityAnalysis = await analyzeSimilarity(projectInfo.description, detailedProject.description);
-          const payload = { project: detailedProject, similarityAnalysis };
+          const payload = { project: { id, title, tagline, images }, similarityAnalysis };
           return resolve(payload);
         }
-        reject();
+        resolve();
       }));
     }
 
     const results = await allSettled(promises)
-      .then(results => results.filter(result => result.status === 'fulfilled'))
+      .then(results => results.filter(result => result.status === 'fulfilled' && result.value))
       .then(fulfilledResults => fulfilledResults.map(result => result.value));
     
-    response.similarProjects = results;
-
-    yield JSON.stringify(response);
+    yield JSON.stringify({ similarProjects: results });
     
     console.log('Script execution completed', results.length);
 

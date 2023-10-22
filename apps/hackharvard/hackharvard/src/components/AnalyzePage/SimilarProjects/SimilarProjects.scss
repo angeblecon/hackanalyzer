@@ -1,0 +1,63 @@
+#similar-projects-container {
+  margin-top: 40px;
+
+  #title {
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+
+  #columns {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin: 20px 0;
+
+    :first-child {
+      flex: 2;
+    }
+
+    span {
+      font-size: 12px;
+      flex: 1;
+      cursor: pointer;
+      color: #ffffff85;
+
+      &:hover {
+        font-weight: bold;
+        color: #FFF;
+      }
+
+      &:not(:last-child) {
+        margin-right: 10px;
+        border-right: 1px solid #ffffff4a;
+      }
+
+      &.selected {
+        font-weight: bold;
+        cursor: default;
+        color: #FFF;
+      }
+    }
+  }
+
+  #overall-scores {
+    display: flex;
+    justify-content: space-around;
+
+    span {
+      &:first-child {
+        flex: 2;
+      }
+
+      &:not(:first-child) {
+        flex: 1;
+      }
+
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
+  }
+
+}
