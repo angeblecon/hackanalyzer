@@ -1,0 +1,22 @@
+#github-insights-container {
+  padding: 20px;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.1098039216);
+  margin-top: 40px;
+  -webkit-backdrop-filter: blur(50px);
+          backdrop-filter: blur(50px);
+}
+
+#columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+#title {
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}/*# sourceMappingURL=GithubInsights.css.map */

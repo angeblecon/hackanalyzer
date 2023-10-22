@@ -1,8 +1,8 @@
-import OpenAI from 'openai';
-import { useBackOff } from '@/utils';
+import OpenAI from "openai";
+import { useBackOff } from "@/utils";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+	apiKey: process.env.OPENAI_API_KEY,
 });
 
 const generatePrompt = (description1, description2) => `[INSTRUCTIONS]
@@ -37,47 +37,50 @@ Project2_Description: ${description2}
 }`;
 
 const analyzeSimilarity = async (description1, description2) => {
+	const prompt = generatePrompt(description1, description2);
 
-  const prompt = generatePrompt(description1, description2);
+	const answer = await useBackOff(() =>
+		openai.chat.completions
+			.create({
+				model: "gpt-3.5-turbo",
+				temperature: 0,
+				messages: [
+					{
+						role: "user",
+						content: prompt,
+					},
+				],
+			})
+			.catch((err) => {
+				console.error("OPEN_AI_ERROR", err);
+				throw err;
+			})
+	).then((r) => r.choices[0]?.message?.content);
 
-  const answer = await useBackOff(() => (
-    openai.chat.completions.create({
-      model: 'gpt-3.5-turbo-16k',
-      temperature: 0,
-      messages: [
-        {
-          role: 'user',
-          content: prompt
-        }
-      ]
-    })
-      .catch(err => {
-        console.error('OPEN_AI_ERROR', err);
-        throw err;
-      })
-  ))
-    .then(r => r.choices[0]?.message?.content);
-    
-  console.log(answer);
+	console.log(answer);
 
-  let response = answer;
-  try {
-    response = JSON.parse(response);
-    response = Object.entries(response).reduce((p, c) => ({
-      ...p,
-      [c[0]]: {
-        ...c[1],
-        similarityScore: parseFloat(c[1].similarityScore)
-      }
-    }), {});
-    console.log('dog', response);
-    response.overallScore.similarityScore = parseInt(Object.entries(response).reduce((p, c) => (
-      c[0] === 'overallScore' ? p : p + c[1].similarityScore
-    ), 0) / 3, 10);
-  } catch(err) {
-    console.error(err);
-  }
-  return response;
+	let response = answer;
+	try {
+		response = JSON.parse(response);
+		response = Object.entries(response).reduce(
+			(p, c) => ({
+				...p,
+				[c[0]]: {
+					...c[1],
+					similarityScore: parseFloat(c[1].similarityScore),
+				},
+			}),
+			{}
+		);
+		console.log("dog", response);
+		response.overallScore.similarityScore = parseInt(
+			Object.entries(response).reduce((p, c) => (c[0] === "overallScore" ? p : p + c[1].similarityScore), 0) / 3,
+			10
+		);
+	} catch (err) {
+		console.error(err);
+	}
+	return response;
 };
 
 export default analyzeSimilarity;

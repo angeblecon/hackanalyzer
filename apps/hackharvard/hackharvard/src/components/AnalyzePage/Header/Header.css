@@ -1,0 +1,71 @@
+#project-img {
+  height: 400px;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 25px;
+}
+
+#picture-with-members {
+  position: relative;
+}
+
+#members {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  align-items: center;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+}
+
+.member {
+  display: flex;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  -webkit-backdrop-filter: blur(30px);
+          backdrop-filter: blur(30px);
+  background: rgba(255, 255, 255, 0.0509803922);
+  padding: 5px;
+  border-radius: 25px;
+  padding-right: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.0705882353);
+  align-items: center;
+}
+.member img {
+  width: 30px;
+  height: 30px;
+  border-radius: 18px;
+}
+.member span {
+  font-size: 14px;
+  align-items: center;
+}
+
+#short-description {
+  display: block;
+  margin-top: 20px;
+}
+
+#description {
+  margin: 50px 0;
+  font-size: 14px;
+  display: flex;
+  justify-content: flex-start;
+  -moz-column-gap: 30px;
+       column-gap: 30px;
+  font-size: 12px;
+}
+#description > span {
+  flex: 1;
+}
+#description .criteria-description {
+  opacity: 0.7;
+}
+#description b {
+  font-size: 15px;
+  margin-bottom: 10px;
+  display: block;
+}/*# sourceMappingURL=Header.css.map */

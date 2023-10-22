@@ -1,0 +1,49 @@
+#similar-projects-container {
+  margin-top: 40px;
+}
+#similar-projects-container #title {
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+#similar-projects-container #columns {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+#similar-projects-container #columns :first-child {
+  flex: 2;
+}
+#similar-projects-container #columns span {
+  font-size: 12px;
+  flex: 1;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.5215686275);
+}
+#similar-projects-container #columns span:hover {
+  font-weight: bold;
+  color: #FFF;
+}
+#similar-projects-container #columns span:not(:last-child) {
+  margin-right: 10px;
+  border-right: 1px solid rgba(255, 255, 255, 0.2901960784);
+}
+#similar-projects-container #columns span.selected {
+  font-weight: bold;
+  cursor: default;
+  color: #FFF;
+}
+#similar-projects-container #overall-scores {
+  display: flex;
+  justify-content: space-around;
+}
+#similar-projects-container #overall-scores span:first-child {
+  flex: 2;
+}
+#similar-projects-container #overall-scores span:not(:first-child) {
+  flex: 1;
+}
+#similar-projects-container #overall-scores span:not(:last-child) {
+  margin-right: 10px;
+}/*# sourceMappingURL=SimilarProjects.css.map */

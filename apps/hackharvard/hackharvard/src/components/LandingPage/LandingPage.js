@@ -18,7 +18,8 @@ const LandingPage = () => {
 	const { push } = useRouter();
 
 	const handleInputChange = (e) => {
-		const inputValue = setInputValue(e.target.value);
+		const inputValue = e.target.value;
+		setInputValue(inputValue);
 		const devpostPattern = /^https:\/\/devpost\.com\/software\//;
 		if (devpostPattern.test(inputValue) || inputValue === "") {
 			setIsValidLink(true);

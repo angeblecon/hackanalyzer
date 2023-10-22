@@ -1,6 +1,6 @@
 const searchProjects = async query => {
 
-  const MAX_PROJECTS = 10;
+  const MAX_PROJECTS = 20;
   const projects = [];
   let running = true;
 

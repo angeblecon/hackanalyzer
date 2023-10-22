@@ -1,0 +1,33 @@
+.similar-project {
+  background: rgba(255, 255, 255, 0.0392156863);
+  border-radius: 10px;
+  margin: 15px 0;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.0901960784);
+  -webkit-backdrop-filter: blur(20px);
+          backdrop-filter: blur(20px);
+  font-size: 13px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+}
+.similar-project span:not(.over-ten) {
+  text-overflow: ellipsis;
+}
+.similar-project span:not(.over-ten):first-child {
+  flex: 2;
+  margin-left: 20px;
+}
+.similar-project span:not(.over-ten):not(:first-child) {
+  flex: 1;
+}
+.similar-project span:not(.over-ten):not(:first-child):not(:last-child) {
+  margin-right: 10px;
+}
+
+.over-ten {
+  margin-left: 5px;
+  font-size: 13px;
+  opacity: 0.7;
+}/*# sourceMappingURL=Card.css.map */
