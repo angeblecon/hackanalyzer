@@ -43,33 +43,112 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: Test; Type: TABLE; Schema: public; Owner: postgres
+-- Name: keyword; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public."Test" (
-    "testColumn" character varying(255) NOT NULL
+CREATE TABLE public.keyword (
+    id text NOT NULL,
+    keywords character varying[]
 );
 
 
-ALTER TABLE public."Test" OWNER TO postgres;
+ALTER TABLE public.keyword OWNER TO postgres;
 
 --
--- Data for Name: Test; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Name: project; Type: TABLE; Schema: public; Owner: postgres
 --
 
-COPY public."Test" ("testColumn") FROM stdin;
-Hello
-World
-!
+CREATE TABLE public.project (
+    id text NOT NULL,
+    title text,
+    tagline text,
+    description text,
+    tags character varying[],
+    github_link text,
+    other_links character varying[],
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    members character varying[]
+);
+
+
+ALTER TABLE public.project OWNER TO postgres;
+
+--
+-- Name: similarity_result; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.similarity_result (
+    id text NOT NULL,
+    project_a text NOT NULL,
+    project_b text NOT NULL,
+    similarity_result jsonb[] NOT NULL
+);
+
+
+ALTER TABLE public.similarity_result OWNER TO postgres;
+
+--
+-- Data for Name: keyword; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.keyword (id, keywords) FROM stdin;
 \.
 
 
 --
--- Name: Test Test_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Data for Name: project; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Test"
-    ADD CONSTRAINT "Test_pkey" PRIMARY KEY ("testColumn");
+COPY public.project (id, title, tagline, description, tags, github_link, other_links, created_at, members) FROM stdin;
+\.
+
+
+--
+-- Data for Name: similarity_result; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.similarity_result (id, project_a, project_b, similarity_result) FROM stdin;
+\.
+
+
+--
+-- Name: keyword primary; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.keyword
+    ADD CONSTRAINT "primary" PRIMARY KEY (id);
+
+
+--
+-- Name: project project_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.project
+    ADD CONSTRAINT project_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: similarity_result similarity_result_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.similarity_result
+    ADD CONSTRAINT similarity_result_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: keyword id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.keyword
+    ADD CONSTRAINT id FOREIGN KEY (id) REFERENCES public.project(id);
+
+
+--
+-- Name: similarity_result project_a; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.similarity_result
+    ADD CONSTRAINT project_a FOREIGN KEY (id) REFERENCES public.keyword(id);
 
 
 --
