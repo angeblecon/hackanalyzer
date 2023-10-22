@@ -50,7 +50,7 @@ const exec = util.promisify(require('child_process').exec);
 const { Octokit } = require('@octokit/core');
 
 const octokit = new Octokit({
-  auth: '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'
+  auth: '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'
 })
 
 export async function GET(request) {
@@ -58,16 +58,54 @@ export async function GET(request) {
   const owner = searchParams.get('owner');
   const repo = searchParams.get('repo');
 
-  const { data: languages } = await octokit.request(`GET /repos/${owner}/${repo}/languages`, {
-    owner,
-    repo,
-    headers: {
-      'X-GitHub-Api-Version': '2022-11-28'
-    }
-  });
+  const commits = [];
 
+  for (let i = 0; i < 10; i++) {
+    const { data } = await octokit.request('GET /repos/{owner}/{repo}/commits', {
+      owner,
+      repo,
+      page: i + 1,
+      per_page: 100,
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
+    });
+
+    commits.push(...data);
+
+    if (!data?.length) break;
+  }
+
+  const results = {};
+
+  for (let commit of commits) {
+    const {
+      data: {
+        author: {
+          login
+        },
+        stats: {
+          total
+        }
+      }
+    } = await octokit.request('GET /repos/{owner}/{repo}/commits/{ref}', {
+      owner,
+      repo,
+      ref: commit.sha,
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
+    });
+
+    if (!results[login]) {
+      results[login] = total;
+    } else {
+      results[login] += total;
+    }
+  }
+  
   return NextResponse.json({
     status: 200,
-    languages
+    reponse: results
   });
 }

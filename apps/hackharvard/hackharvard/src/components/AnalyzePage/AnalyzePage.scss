@@ -1,0 +1,40 @@
+:global(body) {
+  background-color: #000;
+  color: #FFF;
+  margin: 0;
+  position: relative;
+}
+
+#gradient {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  filter: blur(90px);
+  background: radial-gradient(circle at center, #132736, transparent 45%),
+    conic-gradient(from 45deg, #aa3994 52deg, #5b67a8 65deg, #5968a9 120deg 307deg, #6b5da4 353deg);
+  background-color: #000;
+  opacity: 0.25;
+  animation: colorChange 25s ease;
+  animation-iteration-count: infinite;
+
+  @keyframes colorChange {
+    0% {
+      transform: scale(1, 1) rotate(0deg);
+    }
+
+    25% {
+      transform: scale(2, 1) rotate(90deg);
+    }
+
+    75% {
+      transform: scale(2, 2) rotate(-180deg);
+    }
+
+    100% {
+      transform: scale(1, 1) rotate(0deg);
+    }
+  }
+}
