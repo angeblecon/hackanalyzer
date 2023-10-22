@@ -1,7 +1,7 @@
 const { Octokit } = require('@octokit/core');
 
 const octokit = new Octokit({
-  auth: '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'
+  auth: process.env.OCTOKIT_KEY
 });
 
 async function* getGithubInsights(owner, repo) {

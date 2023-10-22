@@ -1,1 +1,1 @@
-export { default as GithubInsights } from './GithubInsights';
+export { default } from './GithubInsights';

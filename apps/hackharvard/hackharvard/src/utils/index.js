@@ -3,6 +3,7 @@
 export { default as allSettled } from './allSettled';
 export { default as analyzeSimilarity } from './analyzeSimilarity';
 export { default as extractKeywords } from './extractKeywords';
+export { default as generateDescription } from './generateDescription';
 export { default as getDevPostProject } from './getDevPostProject';
 export { default as getGithubInsights } from './getGithubInsights';
 export { default as searchProjects } from './searchProjects';

@@ -4,7 +4,8 @@ import {
   searchProjects,
   analyzeSimilarity,
   allSettled,
-  getGithubInsights
+  getGithubInsights,
+  generateDescription
 } from '@/utils';
 
 function iteratorToStream(iterator) {
@@ -29,7 +30,8 @@ export async function GET(request) {
     // get project details
     console.log('Getting project info...', id);
     const projectInfo = await getDevPostProject(id);
-    response.project = projectInfo;
+    const structuredDescription = await generateDescription(projectInfo.description);
+    response.project = { ...projectInfo, structuredDescription };
     yield JSON.stringify(response);
 
     // get github insigths

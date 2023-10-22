@@ -1,1 +1,1 @@
-export { default as SimilarProjects } from './SimilarProjects';
+export { default } from './SimilarProjects';

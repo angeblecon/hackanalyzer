@@ -1,8 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap");
+
 :global(body) {
   background-color: #000;
   color: #FFF;
   margin: 0;
   position: relative;
+  font-family: 'Poppins';
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.block {
+  display: block;
+  max-width: 1000px;
+  width: 100%;
+  padding: 40px;
 }
 
 #gradient {

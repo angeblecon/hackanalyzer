@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import css from './AnalyzePage.scss';
+import scss from './AnalyzePage.scss';
 import { useSearchParams } from 'next/navigation';
 import Header from './Header';
 import GithubInsights from './GithubInsights';
@@ -29,12 +29,16 @@ export default function AnalyzePage() {
   }, [getProject, id]);
 
   return (
-    <>
-      {/* <Header project={data?.project} />
-      <GithubInsights insigths={data?.githubInsights} />
-      <SimilarProjects similarProjects={data?.similarProjects} /> */}
-      <div id='gradient' />
-      <style jsx>{css}</style>
-    </>
+    <div className='container'>
+      <div className='block'>
+        <Header project={data?.project} />
+        {data?.githubInsights &&
+          <GithubInsights insigths={data?.githubInsights} />
+        }
+        {/* <SimilarProjects similarProjects={data?.similarProjects} /> */}
+        <div id='gradient' />
+      </div>
+      <style jsx>{scss}</style>
+    </div>
   );
 };

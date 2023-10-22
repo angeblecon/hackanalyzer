@@ -43,8 +43,6 @@ const analyzeSimilarity = async (description1, description2) => {
 
   const prompt = generatePrompt(description1, description2);
 
-  console.log(prompt);
-
   const answer = await useBackOff(() => (
     openai.chat.completions.create({
       model: 'gpt-3.5-turbo-16k',
