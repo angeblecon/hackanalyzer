@@ -24,7 +24,7 @@ const LandingPage = () => {
 
 			<div className="search-container">
 				<div className="input-button-container">
-					<p className="project-unique-question">Is this project unique?</p>
+					<p className="project-unique-question">How unique is this project?</p>
 					<input
 						type="text"
 						className={`url-input ${!isValidLink && "invalid-input"}`}
@@ -70,6 +70,32 @@ const LandingPage = () => {
 					</li>
 				</ul>
 			</div>
+
+			<section className="how-it-works-section">
+				<h2>How it works</h2>
+				<div className="how-it-works">
+					<div className="step">
+						<div className="step-icon">📋</div> {/* You can replace this with your SVG or icon */}
+						<div className="step-description">Copy and paste the url or project description</div>
+					</div>
+
+					<div className="step">
+						<div className="step-icon">⚙️</div> {/* You can replace this with your SVG or icon */}
+						<div className="step-description">
+							Powered by advanced LLMS, web scraping, and algorithms, our backend offers a deep-dive
+							analysis of the project and its market peers to deliver a comparison report.
+						</div>
+					</div>
+
+					<div className="step">
+						<div className="step-icon">📊</div> {/* You can replace this with your SVG or icon */}
+						<div className="step-description">
+							Instantly access unique insights on the project's originality and much more, empowering you
+							to make data-driven decisions.
+						</div>
+					</div>
+				</div>
+			</section>
 
 			<style jsx>{css}</style>
 		</div>
