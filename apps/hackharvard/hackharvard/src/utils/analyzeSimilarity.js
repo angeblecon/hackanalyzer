@@ -18,25 +18,22 @@ Project2_Description: ${description2}
 [OUTPUT] Return a JSON-valid format.
 
 {
-  "comparisonVariables": [
-    {
-      "variable": "Thematic Focus",
-      "similarityScore": "0 to 10",
-      "scoreJustification": "e.g. are the thematic focus areas the same? If so, what is the theme? If not, how are they different?"
-    },
-    {
-      "variable": "Objective Alignment",
-      "similarityScore": "0 to 10",
-      "scoreJustification": "e.g. are the objective alignment the same? If so, what is it? If not, how are they different?"
-    },
-    {
-      "variable": "Target User",
-      "similarityScore": "0 to 10",
-      "scoreJustification": "e.g. are the target/end user the same? If so, who is it? If not, how are they different?"
-    }
-  ],
-  "overallSimilarityScore": "Average score",
-  "overallScoreJustification": "e.g. main score justification"
+  "thematicFocus": {
+    "similarityScore": "0 to 10",
+    "scoreJustification": "e.g. are the thematic focus areas the same? If so, what is the theme? If not, how are they different?"
+  },
+  "objectiveApproach": {
+    "similarityScore": "0 to 10",
+    "scoreJustification": "e.g. are the objective alignment the same? If so, what is it? If not, how are they different?"
+  },
+  "targetUser": {
+    "similarityScore": "0 to 10",
+    "scoreJustification": "e.g. are the target/end user the same? If so, who is it? If not, how are they different?"
+  },
+  "overallScore": {
+    "similarityScore": "Average score",
+    "scoreJustification": "e.g. main score justification"
+  }
 }`;
 
 const analyzeSimilarity = async (description1, description2) => {
@@ -66,12 +63,19 @@ const analyzeSimilarity = async (description1, description2) => {
   let response = answer;
   try {
     response = JSON.parse(response);
-    response.comparisonVariables = response.comparisonVariables.map(c => ({
-      ...c,
-      similarityScore: parseFloat(c.similarityScore)
-    }));
+    response = Object.entries(response).reduce((p, c) => ({
+      ...p,
+      [c[0]]: {
+        ...c[1],
+        similarityScore: parseFloat(c[1].similarityScore)
+      }
+    }), {});
+    console.log('dog', response);
+    response.overallScore.similarityScore = parseInt(Object.entries(response).reduce((p, c) => (
+      c[0] === 'overallScore' ? p : p + c[1].similarityScore
+    ), 0) / 3, 10);
   } catch(err) {
-    console.err(err);
+    console.error(err);
   }
   return response;
 };

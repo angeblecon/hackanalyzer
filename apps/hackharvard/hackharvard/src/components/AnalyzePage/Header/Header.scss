@@ -5,11 +5,6 @@
   border-radius: 25px;
 }
 
-#header {
-  display: flex;
-  column-gap: 20px;
-}
-
 #picture-with-members {
   position: relative;
 }
@@ -54,15 +49,19 @@
 }
 
 #description {
-  margin-top: 20px;
+  margin: 50px 0;
   font-size: 14px;
   display: flex;
   justify-content: flex-start;
   column-gap: 30px;
   font-size: 12px;
 
-  > * {
+  > span {
     flex: 1;
+  }
+
+  .criteria-description {
+    opacity: 0.7;
   }
 
   b {

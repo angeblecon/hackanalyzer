@@ -37,6 +37,7 @@
   opacity: 0.25;
   animation: colorChange 25s ease;
   animation-iteration-count: infinite;
+  z-index: -1;
 
   @keyframes colorChange {
     0% {

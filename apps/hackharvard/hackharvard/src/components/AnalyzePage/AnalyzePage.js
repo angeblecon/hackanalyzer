@@ -4,12 +4,14 @@ import { useSearchParams } from 'next/navigation';
 import Header from './Header';
 import GithubInsights from './GithubInsights';
 import SimilarProjects from './SimilarProjects';
+import PopUp from '@/components/PopUp';
 
 export default function AnalyzePage() {
   const [data, setData] = useState();
   const searchParams = useSearchParams()
   const id = searchParams.get('id');
-
+  const [selectedProject, setSelectedProject] = useState();
+  
   const getProject = useCallback(async () => {
     const response = await fetch(`api/project/${id}`);
     const reader = response.body.getReader();
@@ -18,9 +20,10 @@ export default function AnalyzePage() {
     while (true) {
       const { value, done } = await reader.read();
       if (done) break;
+      console.log(decoder.decode(value));
       const json = JSON.parse(decoder.decode(value));
       console.log({ json });
-      setData(json);
+      setData(d => ({ ...d, ...json }));
     }
   }, [setData]);
 
@@ -28,14 +31,34 @@ export default function AnalyzePage() {
     if (id) getProject(id);
   }, [getProject, id]);
 
+  console.log({ data });
+
   return (
     <div className='container'>
+      {selectedProject &&
+        <PopUp title={selectedProject.project.title} callback={() => setSelectedProject()}>
+          <i>{selectedProject.project.tagline}</i><br /><br />
+          {Object.entries({
+            objectiveApproach: 'Objective Approach',
+            targetUser: 'Target User',
+            thematicFocus: 'Thematic Focus',
+            overallScore: 'Overall Score'
+          }).map(([id, text]) => (
+            <span key={id}>
+              <b>{text}: {selectedProject.similarityAnalysis[id].similarityScore}</b><br />
+              {selectedProject.similarityAnalysis[id].scoreJustification}<br /><br />
+            </span>
+          ))}
+        </PopUp>
+      }
       <div className='block'>
         <Header project={data?.project} />
         {data?.githubInsights &&
           <GithubInsights insigths={data?.githubInsights} />
         }
-        {/* <SimilarProjects similarProjects={data?.similarProjects} /> */}
+        {data?.similarProjects &&
+          <SimilarProjects similarProjects={data?.similarProjects} setSelectedProject={setSelectedProject} />
+        }
         <div id='gradient' />
       </div>
       <style jsx>{scss}</style>
