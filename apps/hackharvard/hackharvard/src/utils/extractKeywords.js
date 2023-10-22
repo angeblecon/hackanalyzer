@@ -31,7 +31,7 @@ const cleanOutput = str => (
 const extractKeywords = async description => {
   const answer = await useBackOff(() => (
     openai.chat.completions.create({
-      model: 'gpt-4',
+      model: 'gpt-3.5-turbo',
       temperature: 0,
       messages: [
         {
