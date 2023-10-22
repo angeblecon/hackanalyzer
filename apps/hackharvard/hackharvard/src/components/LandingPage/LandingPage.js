@@ -1,12 +1,24 @@
 import React, { useState } from "react";
 import Balancer from "react-wrap-balancer";
 import css from "./LandingPage.scss";
+import { useRouter } from "next/navigation";
+
+const extractIDFromURL = (url) => {
+	const baseUrl = "https://devpost.com/software/";
+	if (url.startsWith(baseUrl)) {
+		return url.substring(baseUrl.length);
+	}
+	return null;
+};
 
 const LandingPage = () => {
 	const [isValidLink, setIsValidLink] = useState(true);
+	const [inputValue, setInputValue] = useState("");
+
+	const { push } = useRouter();
 
 	const handleInputChange = (e) => {
-		const inputValue = e.target.value;
+		const inputValue = setInputValue(e.target.value);
 		const devpostPattern = /^https:\/\/devpost\.com\/software\//;
 		if (devpostPattern.test(inputValue) || inputValue === "") {
 			setIsValidLink(true);
@@ -31,7 +43,15 @@ const LandingPage = () => {
 						placeholder="Enter Devpost Project URL..."
 						onChange={handleInputChange}
 					/>
-					<button className={`analyze-button ${!isValidLink ? "disabled" : "active"}`}>
+					<button
+						className={`analyze-button ${!isValidLink ? "disabled" : "active"}`}
+						onClick={(e) => {
+							const id = extractIDFromURL(inputValue);
+							if (id) {
+								push(`/analyze?id=${id}`);
+							}
+						}}
+					>
 						<svg
 							width="1rem"
 							height="1rem"
