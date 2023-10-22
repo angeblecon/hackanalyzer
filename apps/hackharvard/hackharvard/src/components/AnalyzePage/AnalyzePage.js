@@ -18,15 +18,18 @@ export default function AnalyzePage() {
     while (true) {
       const { value, done } = await reader.read();
       if (done) break;
+      console.log(decoder.decode(value));
       const json = JSON.parse(decoder.decode(value));
       console.log({ json });
-      setData(json);
+      setData(d => ({ ...d, ...json }));
     }
   }, [setData]);
 
   useEffect(() => {
     if (id) getProject(id);
   }, [getProject, id]);
+
+  console.log({ data });
 
   return (
     <div className='container'>
@@ -35,7 +38,9 @@ export default function AnalyzePage() {
         {data?.githubInsights &&
           <GithubInsights insigths={data?.githubInsights} />
         }
-        {/* <SimilarProjects similarProjects={data?.similarProjects} /> */}
+        {data?.similarProjects &&
+          <SimilarProjects similarProjects={data?.similarProjects} />
+        }
         <div id='gradient' />
       </div>
       <style jsx>{scss}</style>

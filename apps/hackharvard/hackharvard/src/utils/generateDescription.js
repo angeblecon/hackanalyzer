@@ -45,7 +45,7 @@ const generateDescription = async description => {
   try {
     response = JSON.parse(response);
   } catch(err) {
-    console.err(err);
+    console.error(err);
   }
   return response;
 };

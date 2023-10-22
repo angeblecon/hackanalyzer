@@ -30,7 +30,7 @@ const getDevPostProject = async projectID => {
 
   $.html();
 
-  const title = trimWhitespaceAndNewlines($('#app-title').html());
+  const title = trimWhitespaceAndNewlines($('#app-title').html())?.replace('&amp;', '&');
 
   const tagline = trimWhitespaceAndNewlines($('#software-header > div:nth-child(1) > div > p').html());
 
@@ -72,6 +72,7 @@ const getDevPostProject = async projectID => {
   });
 
   return {
+    id: projectID,
     title,
     tagline,
     images,
