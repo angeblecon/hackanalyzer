@@ -16,6 +16,10 @@ export async function GET(request) {
   // get project details
   const projectInfo = await getDevPostProject(id);
 
+  if (!projectInfo) {
+    // handle error
+  }
+
   console.log({ projectInfo });
 
   console.log('Extracting keywords...');
@@ -39,6 +43,9 @@ export async function GET(request) {
     promises.push(new Promise(async resolve => {
       console.log('Getting more details on the project', similarProject.id);
       const detailedProject = await getDevPostProject(similarProject.id);
+      if (!detailedProject) {
+        // handle error
+      }
       const similarityAnalysis = await analyzeSimilarity(projectInfo.description, detailedProject.description);
       resolve({ detailedProject, similarityAnalysis });
     }));

@@ -24,6 +24,8 @@ const getDevPostProject = async projectID => {
     console.error(error);
   }
 
+  if (!content) return {};
+
   const $ = cheerio.load(content);
 
   $.html();
