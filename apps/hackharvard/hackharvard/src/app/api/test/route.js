@@ -14,4 +14,4 @@ export async function GET(request) {
 
   return NextResponse.json({ status: 200, content });
   
-};
+};    

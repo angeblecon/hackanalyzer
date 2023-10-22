@@ -1,0 +1,1 @@
+SELECT * from "similarity_result" WHERE "project_a" = ${project_id}
