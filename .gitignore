@@ -5,6 +5,7 @@
 .DS_Store
 *.pem
 # *dist
+*.next
 
 # local env files
 .env

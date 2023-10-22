@@ -5,8 +5,14 @@ COPY . .
 RUN turbo prune --scope=hackharvard --docker
 
 FROM node:lts-alpine AS installer
-RUN apk add --no-cache libc6-compat build-base cmake
+RUN apk add --no-cache libc6-compat build-base cmake git wget unzip gcompat
 RUN apk update
+ENV CODEQL_CLI_VERSION=v2.15.1
+RUN wget -q https://github.com/github/codeql-cli-binaries/releases/download/${CODEQL_CLI_VERSION}/codeql.zip && \
+  unzip codeql.zip && \
+  rm codeql.zip
+RUN chmod +x codeql/codeql
+ENV PATH="/codeql:${PATH}"
 WORKDIR /app
 COPY --from=deps /app/out/json/ .
 COPY --from=deps /app/out/package-lock.json ./package-lock.json

@@ -1,40 +1,37 @@
-import { Configuration, OpenAIApi } from 'openai';
+import OpenAI from 'openai';
 import { useBackOff } from '@/utils';
 
-const openai = new OpenAIApi(new Configuration({
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
-}));
+});
 
 const generatePrompt = description => `[Judge Configuration]
-  Reasoning-Framework: Inductive
   Emojis: Disabled (Default)
   Language: English (Default)
 
 [Overall Rules to follow]
-  1. Produce a Key Word String (KWS) between 3-5 Words.
-  2. The Key Word String must capture the essence of the project.
-  3. Refrain from using the project title to describe the KWS.
+  Produce a Key Word String (KWS) between 2-3 Words.
+  The keywords should be focused enough to help me find highly similar technology projects on Devpost.
+  DO NOT use the project title/name to describe the KWS.
 
 [Personality]
   You are a tool meant to provide jugdes with objective insight on Hackathon Projects, the KWS you produce will be a necessary metric to evaluate uniqueness and project originality. You try your best to follow the student's configuration.
 
 [INSTRUCTIONS] 
-  1. Only produce one KWS.
-  2. If there is no possible KWS, Just respond with "None".
-  3. Output should ONLY consist of the KWS String.
+  Only produce one KWS.
+  If there is no possible KWS, Just respond with "None".
+  Output should ONLY consist of the KWS String.
 
-This is the description of the project: ${description}
---
-To answer, you must use this template (Return a json object by replacing the text into brackets with the id of the url (not the url itself) as the key. Please do not include any note outside the JSON object as your output must satisfy the JSON format):
-{
-  "{URL_ID}": {TRUE/FALSE},
-  ...
-}`;
+This is the description of the project: ${description}`;
+
+const cleanOutput = str => (
+  str.replace(/^[\s\n"']+|[\s\n"']+$/g, '')
+);
 
 const extractKeywords = async description => {
   const answer = await useBackOff(() => (
-    openai.createChatCompletion({
-      model: 'gpt-3.5-turbo',
+    openai.chat.completions.create({
+      model: 'gpt-4',
       temperature: 0,
       messages: [
         {
@@ -43,14 +40,16 @@ const extractKeywords = async description => {
         }
       ]
     })
+      .catch(err => {
+        console.error('OPEN_AI_ERROR', err);
+        throw err;
+      })
   ))
-    .then(r => r.data?.choices[0]?.message?.content);
-
-  const {
-    keywords
-  } = JSON.parse(answer.replaceAll('\n', ''));
-
-  return keywords;
+    .then(r => r.choices[0]?.message?.content);
+  
+  console.log(answer);
+  
+  return cleanOutput(answer).split(' ');
 };
 
 export default extractKeywords;

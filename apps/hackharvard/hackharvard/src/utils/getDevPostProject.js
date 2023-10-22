@@ -30,7 +30,7 @@ const getDevPostProject = async projectID => {
 
   const title = trimWhitespaceAndNewlines($('#app-title').html());
 
-  const tagLine = trimWhitespaceAndNewlines($('#software-header > div:nth-child(1) > div > p').html());
+  const tagline = trimWhitespaceAndNewlines($('#software-header > div:nth-child(1) > div > p').html());
 
   const descriptionHTML = $('#gallery').next().html();
 
@@ -41,11 +41,22 @@ const getDevPostProject = async projectID => {
    $('#built-with > ul').children('li').each((i, e) => {
     tags.push($(e).find('span').text());
   });
-  
+
+  let githubLink;
   const links = [];
 
   $('.app-links ul').children('li').each((i, e) => {
-    links.push($(e).find('a').attr('href'));
+    const url = $(e).find('a').attr('href');
+    try {
+      const parsedUrl = new URL(url);
+      if (parsedUrl.hostname === 'github.com') {
+        githubLink = url;
+      } else {
+        links.push(url);
+      }
+    } catch (error) {
+      console.log(`Invalid URL: ${url}`);
+    }
   });
 
   const members = [];
@@ -58,9 +69,10 @@ const getDevPostProject = async projectID => {
 
   return {
     title,
-    tagLine,
+    tagline,
     description,
     tags,
+    githubLink,
     links,
     members
   };
