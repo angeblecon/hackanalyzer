@@ -1,38 +1,38 @@
-import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
-import { PGVectorStore } from 'langchain/vectorstores/pgvector';
-import { ChatBedrock } from 'langchain/chat_models/bedrock';
-import { HumanMessage } from 'langchain/schema';
-import { generatePrompt } from '@/utils';
-import { bedrockConfig, postgresqlConfig, openaiConfig } from '@/configs';
+// import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
+// import { PGVectorStore } from 'langchain/vectorstores/pgvector';
+// import { ChatBedrock } from 'langchain/chat_models/bedrock';
+// import { HumanMessage } from 'langchain/schema';
+// import { generatePrompt } from '@/utils';
+// import { bedrockConfig, postgresqlConfig, openaiConfig } from '@/configs';
 
-const answerMessage = async (message, conversation) => {
+// const answerMessage = async (message, conversation) => {
 
-  const model = new ChatBedrock(bedrockConfig);
+//   const model = new ChatBedrock(bedrockConfig);
   
-  const embeddings = new OpenAIEmbeddings(openaiConfig);
+//   const embeddings = new OpenAIEmbeddings(openaiConfig);
 
-  const pgvectorStore = await PGVectorStore.initialize(embeddings, postgresqlConfig);
+//   const pgvectorStore = await PGVectorStore.initialize(embeddings, postgresqlConfig);
   
-  const data = await pgvectorStore.similaritySearch(message, 3); // '{'facilities': [2]}');
+//   const data = await pgvectorStore.similaritySearch(message, 3); // '{'facilities': [2]}');
 
-  await pgvectorStore.end();
+//   await pgvectorStore.end();
 
-  console.log(data);
+//   console.log(data);
 
-  if (data?.length) {
+//   if (data?.length) {
 
-    const input = generatePrompt(message, conversation, data.map(d => d.pageContent));
+//     const input = generatePrompt(message, conversation, data.map(d => d.pageContent));
 
-    console.log(input);
+//     console.log(input);
 
-    return model._streamResponseChunks([
-      new HumanMessage({ content: input }),
-    ], {});
+//     return model._streamResponseChunks([
+//       new HumanMessage({ content: input }),
+//     ], {});
 
-  }
+//   }
 
-  return;
+//   return;
 
-};
+// };
 
-export default answerMessage;
+// export default answerMessage;
